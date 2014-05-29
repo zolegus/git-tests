@@ -1,1 +1,1 @@
-include "api", "docs", "services"
+include "api", "docs", "services", "web"
