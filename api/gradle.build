@@ -1,2 +1,36 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
+subprojects {
+apply plugin: 'core'
+repositories {
+	mavenCentral()
+}
+dependencies {
+	testCompile 'junit:junit:4.8.2'
+	}
+}
+project(':services:sample') {
+	configurations {
+		api
+	}
+	task apiJar(type: Jar) {
+	baseName = 'api'
+	dependsOn classes
+	from sourceSets.main.output
+	include 'sample/gradle/api/SampleService.class'
+}
+artifacts {
+	// Add output of apiJar task to api configuration.
+	// so we can reference it from the :web project.
+	api apiJar
+}
+dependencies {
+	compile project(':core')
+}
+}
+project(':web') {
+apply plugin: 'war'
+dependencies {
+	compile project(path: ':services:sample', configuration: 'api')
+	compile project(':services:sample')
+	compile 'javax.servlet:servlet-api:2.5'
+	}
+}
