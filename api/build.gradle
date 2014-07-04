@@ -1,12 +1,13 @@
-subprojects {
-apply plugin: 'core'
+project(':core') {
+apply plugin: 'java'
 repositories {
 	mavenCentral()
 }
 dependencies {
 	testCompile 'junit:junit:4.8.2'
-	}
 }
+}
+
 project(':services:sample') {
 	configurations {
 		api
